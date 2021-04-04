@@ -1,17 +1,21 @@
+"use strict";
+
 import { DeviceEventEmitter, NativeModules, Platform } from "react-native";
 
-const { RNProximity } = NativeModules;
+const nativeModule = NativeModules.RNProximity;
 
 let addListener = null;
 let removeListener = null;
 
 if (Platform.OS === "ios") {
+  console.log(addListener);
+  console.log(removeListener);
   (addListener = function(callback) {
-    RNProximity.proximityEnabled(true);
+    NativeModules.RNProximity.proximityEnabled(true);
     return DeviceEventEmitter.addListener("proximityStateDidChange", callback);
   }),
     (removeListener = function(listener) {
-      RNProximity.proximityEnabled(false);
+      NativeModules.RNProximity.proximityEnabled(false);
       DeviceEventEmitter.removeAllListeners(
         "proximityStateDidChange",
         listener
